@@ -30,7 +30,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center">
           <a href="#" className="flex items-center">
-            <img src="/lovable-uploads/0e97e210-63de-4b39-8d4c-a0a7b6b6e724.png" alt="Homie Logo" loading="eager" className="h-10 md:h-12 object-cover" />
+            <img src="/lovable-uploads/0e97e210-63de-4b39-8d4c-a0a7b6b6e724.png" alt="Homie Logo" loading="eager" className="h-10 md:h-12 object-fill" />
           </a>
         </div>
 
