@@ -67,6 +67,15 @@
   }
 
   .input-field {
-    @apply w-full px-4 py-3 bg-transparent border-2 border-key-green rounded-lg focus:outline-none focus:shadow-[0_0_10px_rgba(104,180,131,0.4)] text-white;
+    @apply w-full px-4 py-3 bg-transparent border-2 border-key-green rounded-lg focus:outline-none focus:shadow-[0_0_10px_rgba(104,180,131,0.4)];
+  }
+
+  .grow-line {
+    @apply transition-all duration-1000 ease-out;
+  }
+
+  @keyframes grow-on-scroll {
+    0% { width: 0%; }
+    100% { width: 100%; }
   }
 }

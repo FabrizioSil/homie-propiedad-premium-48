@@ -37,10 +37,10 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-20 md:py-24 bg-medium-gray bg-opacity-5 anchor-section">
+    <section id="faq" className="py-20 md:py-24 bg-dark-gray anchor-section">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">Preguntas frecuentes</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-white">Preguntas frecuentes</h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             Todo lo que necesitas saber sobre nuestro servicio de administración para Airbnb.
           </p>
