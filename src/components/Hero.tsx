@@ -11,8 +11,8 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-dark-gray/90 to-dark-gray/70"></div>
         <img 
-          src="https://images.unsplash.com/photo-1582562124811-c09040d0a901" 
-          alt="Apartamento Premium" 
+          src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7" 
+          alt="Apartamento Premium Estilo Industrial" 
           className="w-full h-full object-cover"
           loading="lazy"
         />
