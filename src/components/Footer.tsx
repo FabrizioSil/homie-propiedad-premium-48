@@ -1,19 +1,11 @@
-
 import React from 'react';
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
-  return (
-    <footer className="py-12 bg-dark-gray border-t border-key-green border-opacity-10">
+  return <footer className="py-12 bg-dark-gray border-t border-key-green border-opacity-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
-            <img 
-              src="/public/lovable-uploads/0e97e210-63de-4b39-8d4c-a0a7b6b6e724.png" 
-              alt="Homie Logo" 
-              className="h-10" 
-            />
+            <img src="/public/lovable-uploads/0e97e210-63de-4b39-8d4c-a0a7b6b6e724.png" alt="Homie Logo" className="h-10 object-cover" />
           </div>
           
           <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 text-gray-300">
@@ -52,8 +44,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
