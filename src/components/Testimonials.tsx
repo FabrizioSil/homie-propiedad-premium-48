@@ -8,21 +8,21 @@ const testimonialsList = [
     location: "Miraflores, Lima",
     quote: "Mi departamento pasó de estar vacío varios meses al año a tener una ocupación del 92%. Los ingresos superaron mis expectativas y el servicio es impecable.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901"
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a"
   },
   {
     name: "Ana María Fuentes",
     location: "Barranco, Lima",
     quote: "Homie transformó mi experiencia como propietaria. Antes me estresaba con cada inquilino, ahora solo reviso el reporte mensual y los ingresos a mi cuenta.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1472396961693-142e6e269027"
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2"
   },
   {
     name: "Miguel Sánchez",
     location: "San Isidro, Lima",
     quote: "La diferencia en ingresos es notable. Pasé de un alquiler tradicional a ganar un 38% más con Airbnb, sin tener que ocuparme de nada.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04"
+    image: "https://images.unsplash.com/photo-1514222709107-a180c68d72b4"
   }
 ];
 
