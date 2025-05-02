@@ -1,7 +1,5 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
 const testimonialsList = [{
   name: "Carlos Mendoza",
   location: "Miraflores, Lima",
@@ -21,33 +19,22 @@ const testimonialsList = [{
   rating: 5,
   image: "https://images.unsplash.com/photo-1514222709107-a180c68d72b4"
 }];
-
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  
   const nextTestimonial = () => {
     setActiveIndex(prev => prev === testimonialsList.length - 1 ? 0 : prev + 1);
   };
-  
   const prevTestimonial = () => {
     setActiveIndex(prev => prev === 0 ? testimonialsList.length - 1 : prev - 1);
   };
-  
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }).map((_, i) => (
-      <svg 
-        key={i} 
-        className={`w-5 h-5 ${i < rating ? 'text-key-green' : 'text-gray-400'}`} 
-        fill="currentColor" 
-        viewBox="0 0 20 20"
-      >
+    return Array.from({
+      length: 5
+    }).map((_, i) => <svg key={i} className={`w-5 h-5 ${i < rating ? 'text-key-green' : 'text-gray-400'}`} fill="currentColor" viewBox="0 0 20 20">
         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-      </svg>
-    ));
+      </svg>);
   };
-
-  return (
-    <section id="testimonios" className="py-20 md:py-24 bg-[#F7F7F7] anchor-section">
+  return <section id="testimonios" className="py-20 md:py-24 bg-[#F7F7F7] anchor-section">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-dark-gray">Lo que dicen nuestros propietarios</h2>
@@ -72,12 +59,7 @@ const Testimonials = () => {
           {/* Testimonial */}
           <div className="grid md:grid-cols-5 gap-6 items-center">
             <div className="md:col-span-2 rounded-lg overflow-hidden h-64 sm:h-80">
-              <img 
-                src={testimonialsList[activeIndex].image} 
-                alt={testimonialsList[activeIndex].name} 
-                loading="lazy" 
-                className="w-full h-full object-cover rounded-xl"
-              />
+              <img src={testimonialsList[activeIndex].image} alt={testimonialsList[activeIndex].name} loading="lazy" className="w-full h-full rounded-xl object-fill" />
             </div>
             
             <div className="md:col-span-3 p-6 md:pl-12">
@@ -102,13 +84,7 @@ const Testimonials = () => {
               <ChevronLeft size={20} />
             </button>
             <div className="flex space-x-2">
-              {testimonialsList.map((_, index) => (
-                <button 
-                  key={index} 
-                  onClick={() => setActiveIndex(index)} 
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${index === activeIndex ? 'bg-key-green' : 'bg-gray-500'}`} 
-                />
-              ))}
+              {testimonialsList.map((_, index) => <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all ${index === activeIndex ? 'bg-key-green' : 'bg-gray-500'}`} />)}
             </div>
             <button onClick={nextTestimonial} className="p-2 rounded-full bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20 transition-all">
               <ChevronRight size={20} />
@@ -116,8 +92,6 @@ const Testimonials = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Testimonials;
