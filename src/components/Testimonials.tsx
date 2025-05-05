@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 const testimonialsList = [{
   name: "Carlos Mendoza",
   location: "Miraflores, Lima",
@@ -13,12 +14,13 @@ const testimonialsList = [{
   rating: 5,
   image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2"
 }, {
-  name: "Miguel Sánchez",
+  name: "Elvira y Rolando",
   location: "San Isidro, Lima",
   quote: "La diferencia en ingresos es notable. Pasé de un alquiler tradicional a ganar un 38% más con Airbnb, sin tener que ocuparme de nada.",
   rating: 5,
-  image: "https://images.unsplash.com/photo-1514222709107-a180c68d72b4"
+  image: "/lovable-uploads/fbe2a393-c401-4e82-aaee-fd8709ef4014.png"
 }];
+
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const nextTestimonial = () => {
@@ -59,7 +61,7 @@ const Testimonials = () => {
           {/* Testimonial */}
           <div className="grid md:grid-cols-5 gap-6 items-center">
             <div className="md:col-span-2 rounded-lg overflow-hidden h-64 sm:h-80">
-              <img src={testimonialsList[activeIndex].image} alt={testimonialsList[activeIndex].name} loading="lazy" className="w-full h-full rounded-xl object-fill" />
+              <img src={testimonialsList[activeIndex].image} alt={testimonialsList[activeIndex].name} loading="lazy" className="w-full h-full rounded-xl object-cover" />
             </div>
             
             <div className="md:col-span-3 p-6 md:pl-12">
@@ -94,4 +96,5 @@ const Testimonials = () => {
       </div>
     </section>;
 };
+
 export default Testimonials;
