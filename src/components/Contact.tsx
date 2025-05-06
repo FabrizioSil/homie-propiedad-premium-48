@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '../hooks/use-toast';
 
@@ -12,6 +11,7 @@ const Contact = () => {
     habitaciones: '',
     mensaje: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -20,12 +20,22 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
-      // In a production app, this would be a real submission to a backend
+      // Send data to the webhook
+      const response = await fetch('https://hook.us1.make.com/8elap4k96vp4krwzng265tpgevgfkkch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        mode: 'no-cors', // Added to handle CORS restrictions with external webhooks
+      });
+      
       console.log('Form data submitted:', formData);
       
-      // Simulate successful submission
+      // Show success message
       toast({
         title: "Formulario enviado con éxito",
         description: "Nos pondremos en contacto contigo pronto.",
@@ -43,6 +53,8 @@ const Contact = () => {
         description: "Por favor intenta nuevamente.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -121,7 +133,7 @@ const Contact = () => {
                   onChange={handleChange}
                   value={formData.habitaciones}
                 >
-                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option value="" disabled>Selecciona una opción</option>
                   <option value="1">1 Habitación</option>
                   <option value="2">2 Habitaciones</option>
                   <option value="3">3 Habitaciones</option>
@@ -143,8 +155,13 @@ const Contact = () => {
             </div>
             
             <div className="text-center">
-              <button id="form-submit" type="submit" className="btn-primary animate-glow-pulse">
-                Quiero mi proyección gratis
+              <button 
+                id="form-submit" 
+                type="submit" 
+                className="btn-primary animate-glow-pulse"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Enviando...' : 'Quiero mi proyección gratis'}
               </button>
               <p className="text-sm text-[#9E9E9E] mt-2">
                 Al enviar este formulario, aceptas recibir comunicaciones de Homie.

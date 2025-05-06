@@ -17,6 +17,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     habitaciones: '',
     mensaje: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -25,12 +26,22 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
-      // In a production app, this would be a real submission to a backend
+      // Send data to the webhook
+      const response = await fetch('https://hook.us1.make.com/8elap4k96vp4krwzng265tpgevgfkkch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        mode: 'no-cors', // Added to handle CORS restrictions with external webhooks
+      });
+      
       console.log('Form data submitted:', formData);
       
-      // Simulate successful submission
+      // Show success message
       toast({
         title: "Formulario enviado con éxito",
         description: "Nos pondremos en contacto contigo pronto.",
@@ -48,6 +59,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
         description: "Por favor intenta nuevamente.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -124,7 +137,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 onChange={handleChange}
                 value={formData.habitaciones}
               >
-                <option value="" disabled selected>Número de habitaciones</option>
+                <option value="" disabled>Número de habitaciones</option>
                 <option value="1">1 Habitación</option>
                 <option value="2">2 Habitaciones</option>
                 <option value="3">3 Habitaciones</option>
@@ -144,8 +157,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
             </div>
             
             <div>
-              <button type="submit" className="btn-primary w-full">
-                Enviar
+              <button 
+                type="submit" 
+                className="btn-primary w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
               </button>
             </div>
             

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -69,7 +70,7 @@ const Testimonials = () => {
                 {renderStars(testimonialsList[activeIndex].rating)}
               </div>
               
-              <blockquote className="text-xl font-light italic mb-6 text-[#E0E0E0]">
+              <blockquote className="text-xl font-light italic mb-6 text-dark-gray">
                 "{testimonialsList[activeIndex].quote}"
               </blockquote>
               
