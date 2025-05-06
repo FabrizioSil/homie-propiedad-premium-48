@@ -10,12 +10,12 @@ const advantagesList = [
   {
     icon: "calendar",
     title: "Alta ocupación",
-    description: "≥90% de ocupación gracias a optimización de listings y posicionamiento"
+    description: "≥75% de ocupación gracias a optimización de listings y posicionamiento"
   },
   {
     icon: "star", 
     title: "Servicio completo",
-    description: "Fotos, decoración, limpieza, atención al huésped y mantenimiento incluido"
+    description: "Fotos profesionales, decoración, limpieza profunda, atención al huesped 24/7 y filtro de huespedes"
   },
   {
     icon: "message", 
