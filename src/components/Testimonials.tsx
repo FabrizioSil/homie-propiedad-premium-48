@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -20,6 +19,12 @@ const testimonialsList = [{
   quote: "En mi anterior administración tenia menos del 50% de ocupación, hoy en día mi apartamento no baja de 80% de ocupación y el monto que recibo me mantiene muy contento",
   rating: 5,
   image: "/lovable-uploads/1ebbbff7-47d3-4143-9ef6-82b88329c0c7.png"
+}, {
+  name: "Elvira y Rolando",
+  location: "San Isidro, Lima",
+  quote: "La diferencia en ingresos es notable. Pasé de un alquiler tradicional a ganar un 38% más con Airbnb, sin tener que ocuparme de nada.",
+  rating: 5,
+  image: "/lovable-uploads/fbe2a393-c401-4e82-aaee-fd8709ef4014.png"
 }];
 
 const Testimonials = () => {
