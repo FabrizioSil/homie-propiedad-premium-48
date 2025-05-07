@@ -17,6 +17,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     telefono: '',
     email: '',
     direccion: '',
+    ciudad: '',
+    distrito: '',
     habitaciones: '',
     mensaje: '',
     metraje: '',
@@ -24,9 +26,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     capacidad: '',
     amoblado: false,
     fotos: [] as File[],
+    aceptaTerminos: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -35,6 +39,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
 
   const handleCheckboxChange = (checked: boolean) => {
     setFormData(prev => ({ ...prev, amoblado: checked }));
+  };
+
+  const handleTermsChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, aceptaTerminos: checked }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +59,32 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     }
   };
 
+  const removeFile = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      fotos: prev.fotos.filter((_, i) => i !== index)
+    }));
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.aceptaTerminos) {
+      errors.aceptaTerminos = "Debes aceptar los términos y condiciones";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -80,7 +112,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
           size: file.size,
           type: file.type
         })),
-        amoblado: formData.amoblado ? 'Sí' : 'No'
+        amoblado: formData.amoblado ? 'Sí' : 'No',
+        aceptaTerminos: formData.aceptaTerminos ? 'Sí' : 'No'
       };
       
       // Send data to the webhook
@@ -116,14 +149,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const removeFile = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      fotos: prev.fotos.filter((_, i) => i !== index)
-    }));
-    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -176,6 +201,31 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   className="input-field"
                   onChange={handleChange}
                   value={formData.email}
+                />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <input
+                  type="text"
+                  name="ciudad"
+                  placeholder="Ciudad"
+                  required
+                  className="input-field"
+                  onChange={handleChange}
+                  value={formData.ciudad}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="distrito"
+                  placeholder="Distrito"
+                  required
+                  className="input-field"
+                  onChange={handleChange}
+                  value={formData.distrito}
                 />
               </div>
             </div>
@@ -322,6 +372,21 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 value={formData.mensaje}
               ></textarea>
             </div>
+            
+            {/* Términos y condiciones */}
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="terminos" 
+                checked={formData.aceptaTerminos}
+                onCheckedChange={handleTermsChange}
+              />
+              <Label htmlFor="terminos" className="text-white">
+                Acepto los <a href="#" className="text-key-green hover:underline">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+              </Label>
+            </div>
+            {formErrors.aceptaTerminos && (
+              <p className="text-red-500 text-xs">{formErrors.aceptaTerminos}</p>
+            )}
             
             <div>
               <button 

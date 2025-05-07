@@ -13,6 +13,8 @@ const Contact = () => {
     telefono: '',
     email: '',
     direccion: '',
+    ciudad: '',
+    distrito: '',
     habitaciones: '',
     mensaje: '',
     metraje: '',
@@ -20,9 +22,11 @@ const Contact = () => {
     capacidad: '',
     amoblado: false,
     fotos: [] as File[],
+    aceptaTerminos: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -31,6 +35,10 @@ const Contact = () => {
 
   const handleCheckboxChange = (checked: boolean) => {
     setFormData(prev => ({ ...prev, amoblado: checked }));
+  };
+
+  const handleTermsChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, aceptaTerminos: checked }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +63,24 @@ const Contact = () => {
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.aceptaTerminos) {
+      errors.aceptaTerminos = "Debes aceptar los términos y condiciones";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -83,7 +107,8 @@ const Contact = () => {
           size: file.size,
           type: file.type
         })),
-        amoblado: formData.amoblado ? 'Sí' : 'No'
+        amoblado: formData.amoblado ? 'Sí' : 'No',
+        aceptaTerminos: formData.aceptaTerminos ? 'Sí' : 'No'
       };
       
       // Send data to the webhook
@@ -173,13 +198,42 @@ const Contact = () => {
                   value={formData.email}
                 />
               </div>
+              
+              <div>
+                <label className="block text-dark-gray mb-2 text-sm" htmlFor="ciudad">Ciudad</label>
+                <input
+                  id="ciudad"
+                  type="text"
+                  name="ciudad"
+                  placeholder="Ej. Lima"
+                  required
+                  className="input-field text-dark-gray"
+                  onChange={handleChange}
+                  value={formData.ciudad}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-dark-gray mb-2 text-sm" htmlFor="distrito">Distrito</label>
+                <input
+                  id="distrito"
+                  type="text"
+                  name="distrito"
+                  placeholder="Ej. Miraflores"
+                  required
+                  className="input-field text-dark-gray"
+                  onChange={handleChange}
+                  value={formData.distrito}
+                />
+              </div>
+              
               <div>
                 <label className="block text-dark-gray mb-2 text-sm" htmlFor="direccion">Dirección de la propiedad</label>
                 <input
                   id="direccion"
                   type="text"
                   name="direccion"
-                  placeholder="Av. Ejemplo 123, Distrito"
+                  placeholder="Av. Ejemplo 123"
                   required
                   className="input-field text-dark-gray"
                   onChange={handleChange}
@@ -324,6 +378,22 @@ const Contact = () => {
                   onChange={handleChange}
                   value={formData.mensaje}
                 ></textarea>
+              </div>
+              
+              <div className="md:col-span-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="terminos" 
+                    checked={formData.aceptaTerminos}
+                    onCheckedChange={handleTermsChange}
+                  />
+                  <Label htmlFor="terminos" className="text-dark-gray">
+                    Acepto los <a href="#" className="text-key-green hover:underline">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+                  </Label>
+                </div>
+                {formErrors.aceptaTerminos && (
+                  <p className="text-red-500 text-xs mt-1">{formErrors.aceptaTerminos}</p>
+                )}
               </div>
             </div>
             
