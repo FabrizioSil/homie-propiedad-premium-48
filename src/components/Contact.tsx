@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
@@ -27,6 +26,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -52,6 +52,10 @@ const Contact = () => {
       // Create preview URLs for displaying selected files
       const fileNames = filesArray.map(file => file.name);
       setSelectedFiles(prev => [...prev, ...fileNames]);
+      
+      // Generate URLs for the files to send to the webhook
+      const urls = filesArray.map(file => URL.createObjectURL(file));
+      setImageUrls(prev => [...prev, ...urls]);
     }
   };
 
@@ -61,6 +65,7 @@ const Contact = () => {
       fotos: prev.fotos.filter((_, i) => i !== index)
     }));
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   const validateForm = () => {
@@ -102,10 +107,11 @@ const Contact = () => {
       // Convert FormData to JSON-compatible object for webhook
       const jsonData = {
         ...formData,
-        fotos: formData.fotos.map(file => ({
+        fotos: formData.fotos.map((file, index) => ({
           name: file.name,
           size: file.size,
-          type: file.type
+          type: file.type,
+          url: imageUrls[index] || '' // Include URL for each file
         })),
         amoblado: formData.amoblado ? 'Sí' : 'No',
         aceptaTerminos: formData.aceptaTerminos ? 'Sí' : 'No'

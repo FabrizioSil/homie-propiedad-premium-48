@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/carousel";
 
 const testimonialsList = [{
-  name: "Carlos Mendoza",
+  name: "Pilar Reyes",
   location: "Miraflores, Lima",
   quote: "Mi departamento pasó de estar vacío varios meses al año a tener una ocupación del 92%. Los ingresos superaron mis expectativas y el servicio es impecable.",
   rating: 5,
-  image: "https://images.unsplash.com/photo-1560250097-0b93528c311a"
+  image: "/lovable-uploads/09abe06c-fbe4-4e1b-b6c7-785074339a89.png"
 }, {
   name: "Ana María Fuentes",
   location: "Barranco, Lima",
