@@ -1,5 +1,15 @@
+
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
 
 const testimonialsList = [{
   name: "Carlos Mendoza",
@@ -28,21 +38,21 @@ const testimonialsList = [{
 }];
 
 const Testimonials = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const nextTestimonial = () => {
-    setActiveIndex(prev => prev === testimonialsList.length - 1 ? 0 : prev + 1);
-  };
-  const prevTestimonial = () => {
-    setActiveIndex(prev => prev === 0 ? testimonialsList.length - 1 : prev - 1);
-  };
   const renderStars = (rating: number) => {
-    return Array.from({
-      length: 5
-    }).map((_, i) => <svg key={i} className={`w-5 h-5 ${i < rating ? 'text-key-green' : 'text-gray-400'}`} fill="currentColor" viewBox="0 0 20 20">
+    return Array.from({ length: 5 }).map((_, i) => (
+      <svg 
+        key={i} 
+        className={`w-5 h-5 ${i < rating ? 'text-key-green' : 'text-gray-400'}`} 
+        fill="currentColor" 
+        viewBox="0 0 20 20"
+      >
         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-      </svg>);
+      </svg>
+    ));
   };
-  return <section id="testimonios" className="py-20 md:py-24 bg-[#F7F7F7] anchor-section">
+
+  return (
+    <section id="testimonios" className="py-20 md:py-24 bg-[#F7F7F7] anchor-section">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-dark-gray">Lo que dicen nuestros propietarios</h2>
@@ -51,56 +61,60 @@ const Testimonials = () => {
           </p>
         </div>
         
-        <div className="max-w-5xl mx-auto relative">
-          {/* Controls */}
-          <div className="hidden md:flex absolute top-1/2 -left-12 transform -translate-y-1/2 z-10">
-            <button onClick={prevTestimonial} className="p-2 rounded-full bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20 transition-all">
-              <ChevronLeft size={24} />
-            </button>
-          </div>
-          <div className="hidden md:flex absolute top-1/2 -right-12 transform -translate-y-1/2 z-10">
-            <button onClick={nextTestimonial} className="p-2 rounded-full bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20 transition-all">
-              <ChevronRight size={24} />
-            </button>
-          </div>
-          
-          {/* Testimonial */}
-          <div className="grid md:grid-cols-5 gap-6 items-center">
-            <div className="md:col-span-2 rounded-lg overflow-hidden h-64 sm:h-80">
-              <img src={testimonialsList[activeIndex].image} alt={testimonialsList[activeIndex].name} loading="lazy" className="w-full h-full rounded-xl object-cover" />
+        <div className="max-w-5xl mx-auto">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {testimonialsList.map((testimonial, index) => (
+                <CarouselItem key={index}>
+                  <div className="grid md:grid-cols-5 gap-6 items-center px-1">
+                    <div className="md:col-span-2 rounded-lg overflow-hidden h-64 sm:h-80 relative">
+                      <Avatar className="w-full h-full rounded-xl">
+                        <AvatarImage
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                        <AvatarFallback className="w-full h-full bg-gray-200">
+                          <Skeleton className="w-full h-full" />
+                          {testimonial.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                    
+                    <div className="md:col-span-3 p-6 md:pl-12">
+                      <div className="flex mb-3">
+                        {renderStars(testimonial.rating)}
+                      </div>
+                      
+                      <blockquote className="text-xl font-light italic mb-6 text-dark-gray">
+                        "{testimonial.quote}"
+                      </blockquote>
+                      
+                      <div>
+                        <h4 className="font-semibold text-dark-gray">{testimonial.name}</h4>
+                        <p className="text-key-green">{testimonial.location}</p>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="hidden md:block">
+              <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20" />
+              <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20" />
             </div>
             
-            <div className="md:col-span-3 p-6 md:pl-12">
-              <div className="flex mb-3">
-                {renderStars(testimonialsList[activeIndex].rating)}
-              </div>
-              
-              <blockquote className="text-xl font-light italic mb-6 text-dark-gray">
-                "{testimonialsList[activeIndex].quote}"
-              </blockquote>
-              
-              <div>
-                <h4 className="font-semibold text-dark-gray">{testimonialsList[activeIndex].name}</h4>
-                <p className="text-key-green">{testimonialsList[activeIndex].location}</p>
-              </div>
+            {/* Mobile controls */}
+            <div className="flex justify-center mt-8 space-x-4 md:hidden">
+              <CarouselPrevious className="relative inset-0 translate-y-0 bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20" />
+              <CarouselNext className="relative inset-0 translate-y-0 bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20" />
             </div>
-          </div>
-          
-          {/* Mobile controls */}
-          <div className="flex justify-center mt-8 space-x-4 md:hidden">
-            <button onClick={prevTestimonial} className="p-2 rounded-full bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20 transition-all">
-              <ChevronLeft size={20} />
-            </button>
-            <div className="flex space-x-2">
-              {testimonialsList.map((_, index) => <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all ${index === activeIndex ? 'bg-key-green' : 'bg-gray-500'}`} />)}
-            </div>
-            <button onClick={nextTestimonial} className="p-2 rounded-full bg-key-green bg-opacity-10 text-key-green hover:bg-opacity-20 transition-all">
-              <ChevronRight size={20} />
-            </button>
-          </div>
+          </Carousel>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 
 export default Testimonials;

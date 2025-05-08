@@ -14,7 +14,7 @@ const Hero = () => {
           src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7" 
           alt="Apartamento Premium Estilo Industrial" 
           className="w-full h-full object-cover"
-          loading="lazy"
+          loading="eager" // Change to eager loading for hero image
         />
       </div>
 
@@ -33,7 +33,7 @@ const Hero = () => {
             onClick={() => setShowModal(true)}
             className="btn-primary text-lg"
           >
-            Quiero mi proyección gratis
+            Obtén tu proyección de ingresos Gratuita
           </button>
         </div>
       </div>
