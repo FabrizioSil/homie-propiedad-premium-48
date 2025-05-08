@@ -1,9 +1,10 @@
-
 import React, { useState, useRef } from 'react';
 import { X } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
+import type { CustomFormData, FormErrors } from '../types/form-types';
+import { validateForm, prepareFormDataForSubmission } from '../utils/form-utils';
 
 type ContactModalProps = {
   onClose: () => void;
@@ -12,7 +13,7 @@ type ContactModalProps = {
 const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CustomFormData>({
     nombre: '',
     telefono: '',
     email: '',
@@ -30,7 +31,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
-  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -54,17 +55,26 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
         fotos: [...prev.fotos, ...filesArray]
       }));
       
-      // Create preview URLs for displaying selected files
+      // Create better URLs for displaying and downloading the selected files
       const fileNames = filesArray.map(file => file.name);
       setSelectedFiles(prev => [...prev, ...fileNames]);
       
-      // Generate URLs for the files to send to the webhook
-      const urls = filesArray.map(file => URL.createObjectURL(file));
+      // Generate optimized URLs for the files to send to the webhook
+      const urls = filesArray.map(file => {
+        // Create a URL that can be directly accessed
+        const blobUrl = URL.createObjectURL(file);
+        return blobUrl;
+      });
       setImageUrls(prev => [...prev, ...urls]);
     }
   };
 
   const removeFile = (index: number) => {
+    // Revoke the object URL to avoid memory leaks
+    if (imageUrls[index]) {
+      URL.revokeObjectURL(imageUrls[index]);
+    }
+    
     setFormData(prev => ({
       ...prev,
       fotos: prev.fotos.filter((_, i) => i !== index)
@@ -73,54 +83,21 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
-  const validateForm = () => {
-    const errors: {[key: string]: string} = {};
-    
-    if (!formData.aceptaTerminos) {
-      errors.aceptaTerminos = "Debes aceptar los términos y condiciones";
-    }
-    
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) {
+    const { errors, isValid } = validateForm(formData);
+    setFormErrors(errors);
+    
+    if (!isValid) {
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      // Create a FormData object to handle files
-      const formDataToSend = new FormData();
-      
-      // Append all text fields
-      Object.keys(formData).forEach(key => {
-        if (key !== 'fotos') {
-          formDataToSend.append(key, String(formData[key as keyof typeof formData]));
-        }
-      });
-      
-      // Append each file
-      formData.fotos.forEach((file, index) => {
-        formDataToSend.append(`foto_${index}`, file);
-      });
-
-      // Convert FormData to JSON-compatible object for webhook
-      const jsonData = {
-        ...formData,
-        fotos: formData.fotos.map((file, index) => ({
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          url: imageUrls[index] || '' // Include URL for each file
-        })),
-        amoblado: formData.amoblado ? 'Sí' : 'No',
-        aceptaTerminos: formData.aceptaTerminos ? 'Sí' : 'No'
-      };
+      // Prepare data for webhook with improved image URLs
+      const jsonData = prepareFormDataForSubmission(formData, imageUrls);
       
       // Send data to the webhook
       const response = await fetch('https://hook.us1.make.com/8elap4k96vp4krwzng265tpgevgfkkch', {

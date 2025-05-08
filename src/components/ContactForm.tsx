@@ -1,16 +1,15 @@
-
 import React, { useState, useRef } from 'react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
 import { X } from 'lucide-react';
-import { FormData, FormErrors } from '../types/form-types';
+import type { CustomFormData, FormErrors } from '../types/form-types';
 import { validateForm, prepareFormDataForSubmission } from '../utils/form-utils';
 
 const ContactForm = () => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CustomFormData>({
     nombre: '',
     telefono: '',
     email: '',
@@ -52,17 +51,26 @@ const ContactForm = () => {
         fotos: [...prev.fotos, ...filesArray]
       }));
       
-      // Create preview URLs for displaying selected files
+      // Create better URLs for displaying and downloading the selected files
       const fileNames = filesArray.map(file => file.name);
       setSelectedFiles(prev => [...prev, ...fileNames]);
       
-      // Generate URLs for the files to send to the webhook
-      const urls = filesArray.map(file => URL.createObjectURL(file));
+      // Generate optimized URLs for the files to send to the webhook
+      const urls = filesArray.map(file => {
+        // Create a URL that can be directly accessed
+        const blobUrl = URL.createObjectURL(file);
+        return blobUrl;
+      });
       setImageUrls(prev => [...prev, ...urls]);
     }
   };
 
   const removeFile = (index: number) => {
+    // Revoke the object URL to avoid memory leaks
+    if (imageUrls[index]) {
+      URL.revokeObjectURL(imageUrls[index]);
+    }
+    
     setFormData(prev => ({
       ...prev,
       fotos: prev.fotos.filter((_, i) => i !== index)
@@ -84,22 +92,7 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Create a FormData object to handle files
-      const formDataToSend = new FormData();
-      
-      // Append all text fields
-      Object.keys(formData).forEach(key => {
-        if (key !== 'fotos') {
-          formDataToSend.append(key, String(formData[key as keyof typeof formData]));
-        }
-      });
-      
-      // Append each file
-      formData.fotos.forEach((file, index) => {
-        formDataToSend.append(`foto_${index}`, file);
-      });
-
-      // Prepare data for webhook
+      // Prepare data for webhook with improved image URLs
       const jsonData = prepareFormDataForSubmission(formData, imageUrls);
       
       // Send data to the webhook

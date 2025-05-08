@@ -1,5 +1,5 @@
 
-export type FormData = {
+export type CustomFormData = {
   nombre: string;
   telefono: string;
   email: string;
@@ -19,3 +19,4 @@ export type FormData = {
 export type FormErrors = {
   [key: string]: string;
 };
+
