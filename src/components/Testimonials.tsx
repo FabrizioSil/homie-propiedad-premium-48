@@ -21,7 +21,7 @@ const testimonialsList = [{
   // Cambiado de Ana María Fuentes a Carlos Montalva, con nueva foto y ubicación
   name: "Carlos Montalva",
   location: "San Isidro, Lima",
-  quote: "Homie transformó mi experiencia como propietaria. Antes me estresaba con cada inquilino, ahora solo reviso el reporte mensual y los ingresos a mi cuenta.",
+  quote: "Homie transformó mi experiencia como propietario. Antes me estresaba con cada inquilino, ahora solo reviso el reporte mensual y los ingresos a mi cuenta.",
   rating: 5,
   image: "/lovable-uploads/19e931c5-eb99-427e-b087-0cc5cd335abe.png"
 }, {
