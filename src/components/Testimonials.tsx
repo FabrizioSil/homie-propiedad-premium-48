@@ -18,11 +18,12 @@ const testimonialsList = [{
   rating: 5,
   image: "/lovable-uploads/09abe06c-fbe4-4e1b-b6c7-785074339a89.png"
 }, {
-  name: "Ana María Fuentes",
-  location: "Barranco, Lima",
+  // Cambiado de Ana María Fuentes a Carlos Montalva, con nueva foto y ubicación
+  name: "Carlos Montalva",
+  location: "San Isidro, Lima",
   quote: "Homie transformó mi experiencia como propietaria. Antes me estresaba con cada inquilino, ahora solo reviso el reporte mensual y los ingresos a mi cuenta.",
   rating: 5,
-  image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2"
+  image: "/lovable-uploads/19e931c5-eb99-427e-b087-0cc5cd335abe.png"
 }, {
   name: "David Bruley",
   location: "San Isidro, Lima",
@@ -118,3 +119,4 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+
