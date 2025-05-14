@@ -1,6 +1,5 @@
 
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
@@ -18,7 +17,6 @@ const testimonialsList = [{
   rating: 5,
   image: "/lovable-uploads/09abe06c-fbe4-4e1b-b6c7-785074339a89.png"
 }, {
-  // Cambiado de Ana María Fuentes a Carlos Montalva, con nueva foto y ubicación
   name: "Carlos Montalva",
   location: "San Isidro, Lima",
   quote: "Homie transformó mi experiencia como propietario. Antes me estresaba con cada inquilino, ahora solo reviso el reporte mensual y los ingresos a mi cuenta.",
@@ -63,7 +61,12 @@ const Testimonials = () => {
         </div>
         
         <div className="max-w-5xl mx-auto">
-          <Carousel className="w-full">
+          <Carousel 
+            className="w-full"
+            opts={{
+              loop: true
+            }}
+          >
             <CarouselContent>
               {testimonialsList.map((testimonial, index) => (
                 <CarouselItem key={index}>
@@ -119,4 +122,3 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
-
