@@ -12,23 +12,10 @@ export const validateForm = (formData: CustomFormData) => {
 };
 
 export const prepareFormDataForSubmission = (formData: CustomFormData, imageUrls: string[]) => {
-  // Convert image URLs to downloadable PNG format when possible
-  const processedImageUrls = imageUrls.map(url => {
-    // Create a downloadable image URL format
-    return {
-      url: url,
-      downloadUrl: url, // The original URL
-      type: 'image/png',
-      name: `image-${Date.now()}.png`
-    };
-  });
-
   // Convert FormData to JSON-compatible object for webhook
   return {
     ...formData,
-    fotos: processedImageUrls,
     amoblado: formData.amoblado ? 'Sí' : 'No',
     aceptaTerminos: formData.aceptaTerminos ? 'Sí' : 'No'
   };
 };
-

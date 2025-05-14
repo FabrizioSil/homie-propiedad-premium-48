@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
@@ -12,7 +13,6 @@ type ContactModalProps = {
 
 const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<CustomFormData>({
     nombre: '',
     telefono: '',
@@ -26,13 +26,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     banos: '',
     capacidad: '',
     amoblado: false,
-    fotos: [] as File[],
     aceptaTerminos: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -45,42 +42,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
 
   const handleTermsChange = (checked: boolean) => {
     setFormData(prev => ({ ...prev, aceptaTerminos: checked }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setFormData(prev => ({
-        ...prev,
-        fotos: [...prev.fotos, ...filesArray]
-      }));
-      
-      // Create better URLs for displaying and downloading the selected files
-      const fileNames = filesArray.map(file => file.name);
-      setSelectedFiles(prev => [...prev, ...fileNames]);
-      
-      // Generate optimized URLs for the files to send to the webhook
-      const urls = filesArray.map(file => {
-        // Create a URL that can be directly accessed
-        const blobUrl = URL.createObjectURL(file);
-        return blobUrl;
-      });
-      setImageUrls(prev => [...prev, ...urls]);
-    }
-  };
-
-  const removeFile = (index: number) => {
-    // Revoke the object URL to avoid memory leaks
-    if (imageUrls[index]) {
-      URL.revokeObjectURL(imageUrls[index]);
-    }
-    
-    setFormData(prev => ({
-      ...prev,
-      fotos: prev.fotos.filter((_, i) => i !== index)
-    }));
-    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
-    setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,8 +57,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     setIsSubmitting(true);
     
     try {
-      // Prepare data for webhook with improved image URLs
-      const jsonData = prepareFormDataForSubmission(formData, imageUrls);
+      // Prepare data for webhook without image URLs
+      const jsonData = prepareFormDataForSubmission(formData, []);
       
       // Send data to the webhook
       const response = await fetch('https://hook.us1.make.com/8elap4k96vp4krwzng265tpgevgfkkch', {
@@ -134,6 +95,9 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     }
   };
 
+  // Custom placeholder style with reduced opacity
+  const placeholderStyle = "placeholder:text-gray-400/50";
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
       <div className="bg-dark-gray border border-key-green/20 rounded-xl w-full max-w-md md:max-w-lg relative animate-fade-in shadow-xl overflow-y-auto max-h-[90vh]">
@@ -157,7 +121,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 name="nombre"
                 placeholder="Nombre completo"
                 required
-                className="input-field"
+                className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
                 value={formData.nombre}
               />
@@ -170,7 +134,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   name="telefono"
                   placeholder="Teléfono"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.telefono}
                 />
@@ -181,7 +145,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   name="email"
                   placeholder="Email"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.email}
                 />
@@ -195,7 +159,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   name="ciudad"
                   placeholder="Ciudad"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.ciudad}
                 />
@@ -206,7 +170,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   name="distrito"
                   placeholder="Distrito"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.distrito}
                 />
@@ -219,7 +183,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 name="direccion"
                 placeholder="Dirección de la propiedad"
                 required
-                className="input-field"
+                className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
                 value={formData.direccion}
               />
@@ -231,7 +195,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <select
                   name="metraje"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.metraje}
                 >
@@ -248,7 +212,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <select
                   name="habitaciones"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.habitaciones}
                 >
@@ -266,7 +230,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <select
                   name="banos"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.banos}
                 >
@@ -281,7 +245,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <select
                   name="capacidad"
                   required
-                  className="input-field"
+                  className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.capacidad}
                 >
@@ -303,54 +267,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               <Label htmlFor="amoblado" className="text-white">¿La propiedad está amoblada?</Label>
             </div>
             
-            {/* Sección de fotos */}
-            <div className="space-y-2">
-              <Label htmlFor="fotos" className="text-white block mb-1">Fotos de la propiedad</Label>
-              <div 
-                onClick={() => fileInputRef.current?.click()} 
-                className="border-2 border-dashed border-gray-400 rounded-md p-4 text-center cursor-pointer hover:border-key-green transition-colors"
-              >
-                <p className="text-gray-300">Haz clic para agregar fotos</p>
-                <input
-                  ref={fileInputRef}
-                  id="fotos"
-                  name="fotos"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </div>
-              
-              {/* Lista de archivos seleccionados */}
-              {selectedFiles.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-sm text-white mb-1">Archivos seleccionados:</p>
-                  <ul className="space-y-1">
-                    {selectedFiles.map((fileName, index) => (
-                      <li key={index} className="flex items-center justify-between bg-gray-700 rounded px-2 py-1">
-                        <span className="text-sm text-gray-200 truncate max-w-[80%]">{fileName}</span>
-                        <button 
-                          type="button" 
-                          onClick={() => removeFile(index)}
-                          className="text-gray-400 hover:text-red-400"
-                        >
-                          <X size={16} />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-            
             <div>
               <textarea
                 name="mensaje"
                 placeholder="Mensaje (opcional)"
                 rows={3}
-                className="input-field"
+                className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
                 value={formData.mensaje}
               ></textarea>
@@ -382,7 +304,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
             </div>
             
             <p className="text-xs text-gray-400 text-center mt-4">
-              Al enviar este formulario, aceptas recibir comunicaciones de Homie.
+              Al enviar este formulario, aceptas recibir comunicaciones de Homie.<br/>
+              📲 Te responderemos por WhatsApp al <span className="font-semibold">+51 933 463 294</span> en menos de 12 h.
             </p>
           </form>
         </div>

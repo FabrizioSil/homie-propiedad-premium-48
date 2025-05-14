@@ -1,14 +1,13 @@
-import React, { useState, useRef } from 'react';
+
+import React, { useState } from 'react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
-import { X } from 'lucide-react';
 import type { CustomFormData, FormErrors } from '../types/form-types';
 import { validateForm, prepareFormDataForSubmission } from '../utils/form-utils';
 
 const ContactForm = () => {
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<CustomFormData>({
     nombre: '',
     telefono: '',
@@ -22,13 +21,10 @@ const ContactForm = () => {
     banos: '',
     capacidad: '',
     amoblado: false,
-    fotos: [] as File[],
     aceptaTerminos: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -41,42 +37,6 @@ const ContactForm = () => {
 
   const handleTermsChange = (checked: boolean) => {
     setFormData(prev => ({ ...prev, aceptaTerminos: checked }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setFormData(prev => ({
-        ...prev,
-        fotos: [...prev.fotos, ...filesArray]
-      }));
-      
-      // Create better URLs for displaying and downloading the selected files
-      const fileNames = filesArray.map(file => file.name);
-      setSelectedFiles(prev => [...prev, ...fileNames]);
-      
-      // Generate optimized URLs for the files to send to the webhook
-      const urls = filesArray.map(file => {
-        // Create a URL that can be directly accessed
-        const blobUrl = URL.createObjectURL(file);
-        return blobUrl;
-      });
-      setImageUrls(prev => [...prev, ...urls]);
-    }
-  };
-
-  const removeFile = (index: number) => {
-    // Revoke the object URL to avoid memory leaks
-    if (imageUrls[index]) {
-      URL.revokeObjectURL(imageUrls[index]);
-    }
-    
-    setFormData(prev => ({
-      ...prev,
-      fotos: prev.fotos.filter((_, i) => i !== index)
-    }));
-    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
-    setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,8 +52,8 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Prepare data for webhook with improved image URLs
-      const jsonData = prepareFormDataForSubmission(formData, imageUrls);
+      // Prepare data for webhook without image URLs
+      const jsonData = prepareFormDataForSubmission(formData, []);
       
       // Send data to the webhook
       const response = await fetch('https://hook.us1.make.com/8elap4k96vp4krwzng265tpgevgfkkch', {
@@ -152,7 +112,7 @@ const ContactForm = () => {
             id="telefono"
             type="tel"
             name="telefono"
-            placeholder="+51 999 999 999"
+            placeholder="+51 933 463 294"
             required
             className="input-field text-dark-gray"
             onChange={handleChange}
@@ -297,48 +257,6 @@ const ContactForm = () => {
             />
             <Label htmlFor="amoblado" className="text-dark-gray">¿La propiedad está amoblada?</Label>
           </div>
-        </div>
-
-        {/* Sección de fotos */}
-        <div className="md:col-span-2">
-          <label className="block text-dark-gray mb-2 text-sm" htmlFor="fotos">Fotos de la propiedad</label>
-          <div 
-            onClick={() => fileInputRef.current?.click()} 
-            className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center cursor-pointer hover:border-key-green transition-colors"
-          >
-            <p className="text-gray-500">Haz clic para agregar fotos</p>
-            <input
-              ref={fileInputRef}
-              id="fotos"
-              name="fotos"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </div>
-          
-          {/* Lista de archivos seleccionados */}
-          {selectedFiles.length > 0 && (
-            <div className="mt-2">
-              <p className="text-sm text-dark-gray mb-1">Archivos seleccionados:</p>
-              <ul className="space-y-1">
-                {selectedFiles.map((fileName, index) => (
-                  <li key={index} className="flex items-center justify-between bg-gray-100 rounded px-2 py-1">
-                    <span className="text-sm text-gray-700 truncate max-w-[80%]">{fileName}</span>
-                    <button 
-                      type="button" 
-                      onClick={() => removeFile(index)}
-                      className="text-gray-500 hover:text-red-500"
-                    >
-                      <X size={16} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
 
         <div className="md:col-span-2">
