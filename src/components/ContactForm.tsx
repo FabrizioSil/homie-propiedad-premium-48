@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
@@ -22,6 +21,7 @@ const ContactForm = () => {
     capacidad: '',
     amoblado: false,
     aceptaTerminos: false,
+    fotos: [], // Added the missing 'fotos' property to fix type error
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -280,7 +280,7 @@ const ContactForm = () => {
               onCheckedChange={handleTermsChange}
             />
             <Label htmlFor="terminos" className="text-dark-gray">
-              Acepto los <a href="#" className="text-key-green hover:underline">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+              Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
             </Label>
           </div>
           {formErrors.aceptaTerminos && (
@@ -300,9 +300,6 @@ const ContactForm = () => {
         </button>
         <p className="text-sm text-[#9E9E9E] mt-2">
           Al enviar este formulario, aceptas recibir comunicaciones de Homie.
-        </p>
-        <p className="text-sm text-[#9E9E9E] mt-2">
-          📲 Te responderemos por WhatsApp en menos de 12 h.
         </p>
       </div>
     </form>

@@ -27,6 +27,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     capacidad: '',
     amoblado: false,
     aceptaTerminos: false,
+    fotos: [], // Added the missing 'fotos' property to fix type error
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -189,7 +190,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               />
             </div>
             
-            {/* Características de la propiedad */}
+            {/* Características de la propiedad - Now using the same placeholder opacity for all select inputs */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <select
@@ -278,7 +279,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               ></textarea>
             </div>
             
-            {/* Términos y condiciones */}
+            {/* Términos y condiciones - Updated with the requested link */}
             <div className="flex items-center space-x-2">
               <Checkbox 
                 id="terminos" 
@@ -286,7 +287,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 onCheckedChange={handleTermsChange}
               />
               <Label htmlFor="terminos" className="text-white">
-                Acepto los <a href="#" className="text-key-green hover:underline">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+                Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
               </Label>
             </div>
             {formErrors.aceptaTerminos && (
@@ -304,8 +305,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
             </div>
             
             <p className="text-xs text-gray-400 text-center mt-4">
-              Al enviar este formulario, aceptas recibir comunicaciones de Homie.<br/>
-              📲 Te responderemos por WhatsApp al <span className="font-semibold">+51 933 463 294</span> en menos de 12 h.
+              Al enviar este formulario, aceptas recibir comunicaciones de Homie.
             </p>
           </form>
         </div>
