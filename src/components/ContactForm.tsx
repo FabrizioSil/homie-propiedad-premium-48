@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useToast } from '../hooks/use-toast';
 import { Checkbox } from './ui/checkbox';
@@ -280,7 +281,7 @@ const ContactForm = () => {
               onCheckedChange={handleTermsChange}
             />
             <Label htmlFor="terminos" className="text-dark-gray">
-              Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+              Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="https://javierfloresmacias.notion.site/Politicas-de-privacidad-1f5a1b073dc780e6ab21e47ece95e0d0?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">política de privacidad</a>
             </Label>
           </div>
           {formErrors.aceptaTerminos && (

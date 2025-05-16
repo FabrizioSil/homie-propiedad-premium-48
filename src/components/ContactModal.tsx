@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
@@ -279,7 +278,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               ></textarea>
             </div>
             
-            {/* Términos y condiciones - Updated with the requested link */}
+            {/* Términos y condiciones - Updated with the requested links */}
             <div className="flex items-center space-x-2">
               <Checkbox 
                 id="terminos" 
@@ -287,7 +286,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 onCheckedChange={handleTermsChange}
               />
               <Label htmlFor="terminos" className="text-white">
-                Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="#" className="text-key-green hover:underline">política de privacidad</a>
+                Acepto los <a href="https://javierfloresmacias.notion.site/Terminos-Condiciones-1f5a1b073dc7808e83bdfd831bab1f10?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">términos y condiciones</a> y la <a href="https://javierfloresmacias.notion.site/Politicas-de-privacidad-1f5a1b073dc780e6ab21e47ece95e0d0?pvs=4" className="text-key-green hover:underline" target="_blank" rel="noopener noreferrer">política de privacidad</a>
               </Label>
             </div>
             {formErrors.aceptaTerminos && (
