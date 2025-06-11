@@ -26,8 +26,11 @@ const Hero = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
             Convierte tu propiedad en ingresos premium
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8">
+          <p className="text-xl md:text-2xl text-white/90 mb-4">
             Homie se encarga de todo; tú recibes tu reporte mensual.
+          </p>
+          <p className="text-lg md:text-xl text-white/80 mb-8">
+            Especialistas en distritos de Lima Top, Perú.
           </p>
           <button 
             onClick={() => setShowModal(true)}
