@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
@@ -26,7 +27,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     capacidad: '',
     amoblado: false,
     aceptaTerminos: false,
-    fotos: [], // Added the missing 'fotos' property to fix type error
+    fotos: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -165,15 +166,20 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 />
               </div>
               <div>
-                <input
-                  type="text"
+                <select
                   name="distrito"
-                  placeholder="Distrito"
                   required
                   className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
                   value={formData.distrito}
-                />
+                >
+                  <option value="" disabled>Distrito</option>
+                  <option value="San Isidro">San Isidro</option>
+                  <option value="Miraflores">Miraflores</option>
+                  <option value="Barranco">Barranco</option>
+                  <option value="San Miguel">San Miguel</option>
+                  <option value="Magdalena del Mar">Magdalena del Mar</option>
+                </select>
               </div>
             </div>
             

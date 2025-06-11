@@ -22,7 +22,7 @@ const ContactForm = () => {
     capacidad: '',
     amoblado: false,
     aceptaTerminos: false,
-    fotos: [], // Added the missing 'fotos' property to fix type error
+    fotos: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -150,16 +150,21 @@ const ContactForm = () => {
         
         <div>
           <label className="block text-dark-gray mb-2 text-sm" htmlFor="distrito">Distrito</label>
-          <input
+          <select
             id="distrito"
-            type="text"
             name="distrito"
-            placeholder="Ej. Miraflores"
             required
             className="input-field text-dark-gray"
             onChange={handleChange}
             value={formData.distrito}
-          />
+          >
+            <option value="" disabled>Selecciona un distrito</option>
+            <option value="San Isidro">San Isidro</option>
+            <option value="Miraflores">Miraflores</option>
+            <option value="Barranco">Barranco</option>
+            <option value="San Miguel">San Miguel</option>
+            <option value="Magdalena del Mar">Magdalena del Mar</option>
+          </select>
         </div>
         
         <div>
