@@ -26,7 +26,7 @@ const Footer = () => {
           </p>
           
           <div className="flex justify-center space-x-6">
-            <a href="https://www.tiktok.com/@visionarios?_t=ZM-8wPXz61id3n&_r=1" className="text-gray-400 hover:text-key-green" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@homiebnb" className="text-gray-400 hover:text-key-green" target="_blank" rel="noopener noreferrer">
               <span className="sr-only">TikTok</span>
               {/* Custom TikTok SVG icon since it's not available in lucide-react */}
               <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
