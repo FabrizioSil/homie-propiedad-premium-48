@@ -25,7 +25,7 @@ export default {
 			},
 			colors: {
 				'key-green': '#68B483',
-				'primary-green': '#28A954',
+				'primary-green': '#FF5A5F',
 				'dark-gray': '#1E1E1E',
 				'medium-gray': '#4A4A4A',
 				'light-gray': '#7A7A7A',

@@ -58,7 +58,7 @@ const Navbar = () => {
             Contacto
           </button>
           <button onClick={() => scrollToSection('contacto')} className="btn-primary">
-            Simular los ingresos de mi propiedad
+            Simular ingresos
           </button>
         </div>
 
@@ -89,7 +89,7 @@ const Navbar = () => {
             Contacto
           </button>
           <button onClick={() => scrollToSection('contacto')} className="btn-primary mt-4">
-            Simular los ingresos de mi propiedad
+            Simular ingresos
           </button>
         </div>
       </div>
