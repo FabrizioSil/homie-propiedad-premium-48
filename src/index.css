@@ -45,7 +45,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-key-green rounded-full;
+    @apply bg-scrollbar-color rounded-full;
   }
 }
 
