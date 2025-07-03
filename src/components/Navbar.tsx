@@ -58,7 +58,7 @@ const Navbar = () => {
             Contacto
           </button>
           <button onClick={() => scrollToSection('contacto')} className="btn-primary">
-            Quiero mi proyección gratis
+            Simular los ingresos de mi propiedad
           </button>
         </div>
 
@@ -89,7 +89,7 @@ const Navbar = () => {
             Contacto
           </button>
           <button onClick={() => scrollToSection('contacto')} className="btn-primary mt-4">
-            Quiero mi proyección gratis
+            Simular los ingresos de mi propiedad
           </button>
         </div>
       </div>
