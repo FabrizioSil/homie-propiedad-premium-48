@@ -82,7 +82,36 @@
   }
 
   .select-option-muted {
-    color: rgba(156, 163, 175, 0.5);
+    color: #5D6167;
+  }
+
+  .input-field {
+    position: relative;
+  }
+
+  .input-field.filled {
+    border-color: #68B483;
+    @apply shadow-[0_0_5px_rgba(104,180,131,0.3)];
+    animation: border-sweep 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes border-sweep {
+    0% {
+      background: conic-gradient(from 0deg at 50% 0%, #68B483 0deg, #FDFDFD 0deg);
+    }
+    25% {
+      background: conic-gradient(from 0deg at 50% 0%, #68B483 90deg, #FDFDFD 90deg);
+    }
+    50% {
+      background: conic-gradient(from 0deg at 50% 0%, #68B483 180deg, #FDFDFD 180deg);
+    }
+    75% {
+      background: conic-gradient(from 0deg at 50% 0%, #68B483 270deg, #FDFDFD 270deg);
+    }
+    100% {
+      background: conic-gradient(from 0deg at 50% 0%, #68B483 360deg, #FDFDFD 360deg);
+      border-color: #68B483;
+    }
   }
 
   .grow-line {
