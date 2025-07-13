@@ -35,6 +35,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Add filled class for styling
+    if (value.trim() !== '') {
+      e.target.classList.add('filled');
+    } else {
+      e.target.classList.remove('filled');
+    }
   };
 
   const handleCheckboxChange = (checked: boolean) => {
@@ -120,7 +127,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               <input
                 type="text"
                 name="nombre"
-                placeholder="Nombre completo"
+                placeholder="Juan Pérez"
                 required
                 className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
@@ -133,7 +140,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <input
                   type="tel"
                   name="telefono"
-                  placeholder="Teléfono"
+                  placeholder="999 123 456"
                   required
                   className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
@@ -144,7 +151,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="juan@email.com"
                   required
                   className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
@@ -158,7 +165,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 <input
                   type="text"
                   name="ciudad"
-                  placeholder="Ciudad"
+                  placeholder="Lima"
                   required
                   className={`input-field ${placeholderStyle}`}
                   onChange={handleChange}
@@ -207,7 +214,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   onChange={handleChange}
                   value={formData.metraje}
                 >
-                  <option value="" disabled>Metraje (m²)</option>
+                  <option value="" disabled className="select-option-muted">Metraje (m²)</option>
                   <option value="Menos de 50">Menos de 50 m²</option>
                   <option value="50-80">50-80 m²</option>
                   <option value="80-120">80-120 m²</option>
@@ -224,7 +231,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   onChange={handleChange}
                   value={formData.habitaciones}
                 >
-                  <option value="" disabled>Número de habitaciones</option>
+                  <option value="" disabled className="select-option-muted">Número de habitaciones</option>
                   <option value="1">1 Habitación</option>
                   <option value="2">2 Habitaciones</option>
                   <option value="3">3 Habitaciones</option>
@@ -242,7 +249,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   onChange={handleChange}
                   value={formData.banos}
                 >
-                  <option value="" disabled>Número de baños</option>
+                  <option value="" disabled className="select-option-muted">Número de baños</option>
                   <option value="1">1 Baño</option>
                   <option value="2">2 Baños</option>
                   <option value="3+">3+ Baños</option>
@@ -257,7 +264,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   onChange={handleChange}
                   value={formData.capacidad}
                 >
-                  <option value="" disabled>Capacidad de huéspedes</option>
+                  <option value="" disabled className="select-option-muted">Capacidad de huéspedes</option>
                   <option value="1-2">1-2 Personas</option>
                   <option value="3-4">3-4 Personas</option>
                   <option value="5-6">5-6 Personas</option>
@@ -312,7 +319,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
             </div>
             
             <p className="text-xs text-gray-400 text-center mt-4">
-              Al enviar este formulario, aceptas recibir comunicaciones de Homie.
+              Al enviar estos datos, aceptas recibir comunicaciones de Homie.
             </p>
           </form>
         </div>
