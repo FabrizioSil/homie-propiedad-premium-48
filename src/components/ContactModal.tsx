@@ -174,11 +174,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                   value={formData.distrito}
                 >
                   <option value="" disabled>Distrito</option>
-                  <option value="San Isidro">San Isidro</option>
-                  <option value="Miraflores">Miraflores</option>
                   <option value="Barranco">Barranco</option>
-                  <option value="San Miguel">San Miguel</option>
                   <option value="Magdalena del Mar">Magdalena del Mar</option>
+                  <option value="Miraflores">Miraflores</option>
+                  <option value="San Isidro">San Isidro</option>
+                  <option value="San Miguel">San Miguel</option>
+                  <option value="Santa Catalina">Santa Catalina</option>
+                  <option value="Otro">Otro</option>
                 </select>
               </div>
             </div>
@@ -187,7 +189,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
               <input
                 type="text"
                 name="direccion"
-                placeholder="Dirección de la propiedad"
+                placeholder="Av. Gral. Salaverry 3580"
                 required
                 className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
@@ -276,7 +278,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
             <div>
               <textarea
                 name="mensaje"
-                placeholder="Mensaje (opcional)"
+                placeholder="Me gustaría que se contacten conmigo"
                 rows={3}
                 className={`input-field ${placeholderStyle}`}
                 onChange={handleChange}
@@ -305,7 +307,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
                 className="btn-primary w-full"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Enviando...' : 'Quiero mi proyección gratis'}
+                {isSubmitting ? 'Enviando...' : 'Simular ingresos'}
               </button>
             </div>
             
